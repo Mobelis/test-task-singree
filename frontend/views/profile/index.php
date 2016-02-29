@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?php
                     echo StarRating::widget([
                       'name' => 'user_rating_vote',
-                      'value' => $model->voteUser->num,
+                      'value' => isset($model->voteUser->num)?$model->voteUser->num:0,
                       'pluginOptions' => [
                         'size' => 'sm',
                         'step' => 1,
@@ -64,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'theme' => 'krajee-uni',
                         'filledStar' => '&#x2605;',
                         'emptyStar' => '&#x2606;',
-                        'displayOnly' => $model->voteUser->num?true:false,
+                        'displayOnly' => isset($model->voteUser->num)?true:false,
                       ],
                       'pluginEvents' => [
                         "rating.change" => "function(event, value, caption) { ProfileUserRatingVote(event, value, caption,'".$model->getId()."')}",

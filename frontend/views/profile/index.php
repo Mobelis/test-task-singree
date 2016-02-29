@@ -16,12 +16,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <? if(Yii::$app->user->getId()==$model->id): ?>
+    <?php if(Yii::$app->user->getId()==$model->id): ?>
     <p>
         <?= Html::a(Yii::t('app', 'BUTTON_UPDATE'), ['update'], ['class' => 'btn btn-primary']) ?>
         <?= Html::a(Yii::t('app', 'BUTTON_CHANGE_PASSWORD'), ['password-change'], ['class' => 'btn btn-primary']) ?>
     </p>
-    <? endif ?>
+    <?php endif ?>
 
     <div class="row">
         <div class="col-sm-3">
@@ -49,14 +49,14 @@ $this->params['breadcrumbs'][] = $this->title;
             ]);?>
         </div>
         <div class="col-sm-12">
-        <?  if($model->id!=Yii::$app->user->getId() && !Yii::$app->user->isGuest): ?>
+        <?php  if($model->id!=Yii::$app->user->getId() && !Yii::$app->user->isGuest): ?>
 
             <?= $this->render('_comment_form', [
               'model' => $comment,
             ]) ?>
 
-        <?  endif ?>
-        <? if(Yii::$app->user->isGuest): ?> <h4><?= Yii::t('app', 'NO_AUTH_COMMENT_INFO')?></h4><? endif ?>
+        <?php endif ?>
+        <?php if(Yii::$app->user->isGuest): ?> <h4><?= Yii::t('app', 'NO_AUTH_COMMENT_INFO')?></h4><?php endif ?>
         </div>
     </div>
 

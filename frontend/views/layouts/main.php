@@ -28,25 +28,27 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'My Company',
+        'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
     $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
+        ['label' => Yii::t('app', 'NAV_HOME'), 'url' => ['/']],
+        ['label' => Yii::t('app', 'NAW_CONTACT'), 'url' => ['/contact']],
     ];
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+        $menuItems[] = ['label' => Yii::t('app', 'NAV_SIGNUP'), 'url' => ['/signup']];
+        $menuItems[] = ['label' => Yii::t('app', 'NAV_LOGIN'), 'url' => ['/login']];
     } else {
+        $menuItems[] = ['label' => Yii::t('app', 'NAV_PROFILE'), 'url' => ['/profile']];
+        $menuItems[] = ['label' => Yii::t('app', 'NAV_NEW_BOARD'), 'url' => ['/add_board']];
+
         $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
+            . Html::beginForm(['/logout'], 'post')
             . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
+            Yii::t('app', 'NAV_LOGOUT').' (' . Yii::$app->user->identity->username . ')',
                 ['class' => 'btn btn-link']
             )
             . Html::endForm()
@@ -70,7 +72,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; <?= Yii::$app->name ?> <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>

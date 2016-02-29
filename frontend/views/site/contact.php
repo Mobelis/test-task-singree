@@ -6,17 +6,13 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
-use yii\captcha\Captcha;
+use himiklab\yii2\recaptcha\ReCaptcha;
 
-$this->title = 'Contact';
+$this->title = Yii::t('app', 'TITLE_CONTACT');;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-contact">
     <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.
-    </p>
 
     <div class="row">
         <div class="col-lg-5">
@@ -30,12 +26,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model, 'body')->textArea(['rows' => 6]) ?>
 
-                <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
-                    'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6">{input}</div></div>',
-                ]) ?>
+                <?= $form->field($model, 'verifyCode')->widget(ReCaptcha::className()) ?>
 
                 <div class="form-group">
-                    <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
+                    <?= Html::submitButton(Yii::t('app','BUTTON_SEND'), ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
                 </div>
 
             <?php ActiveForm::end(); ?>

@@ -177,7 +177,7 @@ class ProfileController extends Controller
 
             $data=Yii::$app->request->post();
 
-            if($this->findModel($data['id'])->voteUser->num>0) {
+            if(isset($this->findModel($data['id'])->voteUser->num) && $this->findModel($data['id'])->voteUser->num>0) {
                 Yii::$app->session->setFlash('error', Yii::t('app','FLASH_PROFILE_ACCESS_RATING_ERROR'));
                 return $this->redirect(['index','id'=>$data['id']]);
             }

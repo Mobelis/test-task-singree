@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use app\models\Comment;
+use app\models\RatingVoteUser;
 use Yii;
 use common\models\User;
 use yii\data\ActiveDataProvider;
@@ -15,6 +16,7 @@ use yii\web\UploadedFile;
 use frontend\components\MyHelpers;
 use frontend\models\PasswordChangeForm;
 use yii\filters\AccessControl;
+use yii\web\Response;
 
 /**
  * ProfileController implements the CRUD actions for User model.
@@ -37,7 +39,7 @@ class ProfileController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['post'],
+                    'setrating' => ['post'],
                 ],
             ],
         ];
@@ -51,6 +53,7 @@ class ProfileController extends Controller
     public function actionIndex($id=0)
     {
         $comment = new Comment();
+        $ratingModel= new RatingVoteUser();
 
         if (Yii::$app->request->isPost && !Yii::$app->user->isGuest) {
             if ($comment->load(Yii::$app->request->post())) {
@@ -163,6 +166,43 @@ class ProfileController extends Controller
             return $this->render('passwordChange', [
               'model' => $model,
             ]);
+        }
+    }
+
+    public  function actionSetrating()
+    {
+        $response = [];
+        if (Yii::$app->request->isAjax) {
+            $modelRating = new RatingVoteUser();
+
+            $data=Yii::$app->request->post();
+
+            if($this->findModel($data['id'])->voteUser->num>0) {
+                Yii::$app->session->setFlash('error', Yii::t('app','FLASH_PROFILE_ACCESS_RATING_ERROR'));
+                return $this->redirect(['index','id'=>$data['id']]);
+            }
+
+            if ($modelRating->validate($data)) {
+                $modelRating->num=$data['value'];
+                $modelRating->user_id=$data['id'];
+                $modelRating->user_vote_id=Yii::$app->user->getId();
+                $response=$modelRating->toArray();
+                if ($modelRating->save()) {
+                    $modelUser = $this->findModel($modelRating->user_id);
+                    $modelUser->rating+=$modelRating->num;
+                    $modelUser->rating_votes_col+=1;
+                    $modelUser->save();
+                    Yii::$app->session->setFlash('success', Yii::t('app','FLASH_PROFILE_RATING_SUCCESS'));
+                    return $this->redirect(['index','id'=>$modelRating->user_id]);
+                }
+                else {
+                    $response['error'] = $modelRating->getErrors();
+                }
+            }
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return [
+              'data'=>$response,
+            ];
         }
     }
 

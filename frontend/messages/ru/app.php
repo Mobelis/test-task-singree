@@ -73,5 +73,10 @@ return [
   'TITLE_COMMENT'                   => 'Комментарии',
   'TITLE_FORM_COMMENT'              => 'Форма для добавления нового комментария',
   'NO_AUTH_COMMENT_INFO'            => 'Авторизированные пользователи могут оставлять свои комментарии. ',
+  'PROFILE_USER_RATING'             => 'Рейтинг пользователя:',
+  'PROFILE_USER_RATING_VOTE'        => 'Ваша оценка:',
+  'PROFILE_USER_RATING_CURRENT'     => 'Ваша рейтинг:',
+  'FLASH_PROFILE_ACCESS_RATING_ERROR'   => 'Вы уже голосовали',
+  'FLASH_PROFILE_RATING_SUCCESS'    => 'Ваша оценка учтена.',
 
 ];

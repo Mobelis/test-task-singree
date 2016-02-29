@@ -103,3 +103,30 @@ a.desc:after {
 .nav > li > form > button:hover {
     text-decoration: none;
 }
+
+div.profile_user_rating > .rating-container {
+  display: inline-block;
+  margin-left: -36px;
+  margin-top: -24px;
+}
+div.profile_user_rating > .rating-container .star {
+  font-size: 25px;
+}
+div.profile_user_rating > .rating_user_info {
+  display: inline-block;
+}
+
+div.profile_user_rating_vote > .rating-container {
+  display: inline-block;
+  margin-left: -36px;
+  margin-top: -24px;
+}
+div.profile_user_rating_vote > .rating-container .star {
+  font-size: 25px;
+}
+div.profile_user_rating_vote > .rating_user_info {
+  display: inline-block;
+}
+div.profile_user_rating_vote > .rating-container .clear-rating,div.profile_user_rating_vote > .rating-container .caption {
+  display: none;
+}

@@ -3,6 +3,10 @@
 namespace app\models;
 
 use Yii;
+use common\models\User;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "rating_vote_user".
@@ -16,7 +20,7 @@ use Yii;
  * @property User $user
  * @property User $userVote
  */
-class RatingVoteUser extends \yii\db\ActiveRecord
+class RatingVoteUser extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -32,9 +36,25 @@ class RatingVoteUser extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'user_vote_id', 'created_at', 'num'], 'required'],
+            [['user_id', 'user_vote_id', 'num'], 'required'],
             [['user_id', 'user_vote_id', 'num'], 'integer'],
             [['created_at'], 'safe']
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+          'timestamp' => [
+            'class' => TimestampBehavior::className(),
+            'attributes' => [
+              ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
+            ],
+            'value' => new Expression('NOW()'),
+          ],
         ];
     }
 

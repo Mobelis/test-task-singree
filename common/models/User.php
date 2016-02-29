@@ -8,7 +8,8 @@ use yii\db\ActiveRecord;
 use yii\db\Expression;
 use yii\web\IdentityInterface;
 use app\models\Comment;
-
+use app\models\Callboard;
+use app\models\RatingVoteUser;
 /**
  * User model
  *
@@ -32,6 +33,7 @@ use app\models\Comment;
  * @property Comment[] $comments0
  * @property RatingVoteUser[] $ratingVoteUsers
  * @property RatingVoteUser[] $ratingVoteUsers0
+ * @property RatingVoteUser $voteUser
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -285,11 +287,25 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasMany(RatingVoteUser::className(), ['user_vote_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getVoteUser()
+    {
+        return $this->hasOne(RatingVoteUser::className(), ['user_id' => 'id']);
+    }
+
     public function getImage()
     {
         if($this->photo)
             return $this->image_path.$this->photo;
         else
             return '/uploads/no-avatar.jpg';
+    }
+
+    public function getRating(){
+        if($this->rating>0)
+            return round($this->rating/$this->rating_votes_col,2);
+        return 0;
     }
 }

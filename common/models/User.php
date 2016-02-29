@@ -292,7 +292,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getVoteUser()
     {
-        return $this->hasOne(RatingVoteUser::className(), ['user_id' => 'id']);
+        return $this->hasOne(RatingVoteUser::className(), ['user_id' => 'id'])->where('user_vote_id=:user_vote_id',[':user_vote_id'=>Yii::$app->user->getId()]);
     }
 
     public function getImage()
